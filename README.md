@@ -1,103 +1,49 @@
-# Expense Tracker — MERN Stack
+# Expense Tracker
 
-A full-stack expense tracker built with **MongoDB, Express, React and Node.js**. Add income and expenses, optionally enter your savings, and watch the balance update live. Data is stored in MongoDB Atlas (cloud).
+Expense tracker app made with the MERN stack (MongoDB, Express, React, Node.js). You can add income and expenses, set your savings, and the balance updates live. All transactions are saved in MongoDB Atlas.
 
 ## Features
 
-- Separate **Add Income** (green) and **Add Expense** (red) buttons — no minus signs needed
-- **Savings is optional** — an "Add savings (optional)" link lets you enter the money you already have; skip it and the app starts from 0
-- Live totals: **Your Balance is Rs. ...** line plus **Savings**, **Income** and **Expense** chips (balance = savings + income − expense)
-- **No negative balance** — an expense bigger than the available balance is rejected with a "No balance left" message
-- The saved savings live in the browser (`localStorage`) and can be changed any time from the same link
-- Transaction list (newest first) with a red **X** delete button on every row; deleting an expense raises the balance, deleting an income lowers it
-- Toast messages on add / delete
-- Data persisted in **MongoDB Atlas** through a REST API
+- Add Income and Add Expense buttons (separate buttons, no minus signs needed)
+- Savings field (optional) that gets added to your balance
+- Balance = savings + income - expense, updates on every add and delete
+- An expense bigger than the balance is not allowed, it shows "No balance left for this expense"
+- Delete any transaction with the X button
+- Savings is stored in localStorage so it stays after refresh
+- Transactions are stored in MongoDB Atlas through a REST API
 
-## Tech Stack
+## Tech used
 
-| Layer    | Technology                          |
-| -------- | ----------------------------------- |
-| Frontend | React 19 (Vite)                     |
-| Backend  | Node.js + Express                   |
-| Database | MongoDB (Mongoose ODM, Atlas cloud) |
+- Frontend: React (Vite)
+- Backend: Node.js, Express
+- Database: MongoDB with Mongoose, hosted on Atlas
 
-## Project Structure
+## React hooks used
 
-```
-expense-tracker/
-├── backend/
-│   ├── models/
-│   │   └── Expense.js        # Mongoose schema (description, amount, timestamps)
-│   ├── routes/
-│   │   └── expenses.js       # GET / POST / DELETE handlers
-│   ├── app.js                # Express app (cors + json + routes)
-│   ├── server.js             # MongoDB connection + listen
-│   ├── .env.example          # template for secrets (copy to .env)
-│   └── package.json
-├── frontend/
-│   ├── src/
-│   │   ├── App.jsx           # UI + all React hooks
-│   │   ├── App.css
-│   │   ├── index.css
-│   │   └── main.jsx
-│   ├── vite.config.js        # dev proxy: /api -> http://localhost:5000
-│   └── package.json
-└── README.md
-```
+The task required these 5 hooks:
 
-## API Endpoints
+- useState: expenses list, savings, form fields, error and toast state
+- useEffect: fetch all transactions from the API when the app loads
+- useRef: focus the description input after adding a transaction, toast timer
+- useMemo: income/expense totals and the final balance
+- useCallback: handleAdd, handleDelete and saveSavings functions
 
-| Method | Route              | Body                          | Description              |
-| ------ | ------------------ | ----------------------------- | ------------------------ |
-| GET    | `/api/expenses`    | —                             | List all, newest first   |
-| POST   | `/api/expenses`    | `{ description, amount }`     | Create a transaction     |
-| DELETE | `/api/expenses/:id`| —                             | Delete one transaction   |
+## How to run
 
-## React Hooks Used
+Backend:
 
-| Hook         | Where / Why                                                            |
-| ------------ | ---------------------------------------------------------------------- |
-| `useState`   | transactions list, savings, form fields, loading, error and toast state |
-| `useEffect`  | fetch all transactions once when the app loads                          |
-| `useRef`     | return the cursor to the description box after adding; toast timer      |
-| `useMemo`    | income/expense totals from the list, and balance = savings + income − expense |
-| `useCallback`| stable `saveSavings`, `handleAdd` and `handleDelete` functions          |
+1. cd backend
+2. npm install
+3. copy .env.example to a new file .env and paste your MongoDB connection string in MONGO_URI
+4. npm run dev (API runs on http://localhost:5000)
 
-## Setup
+Frontend:
 
-Requirements: Node.js 18+ and a free MongoDB Atlas cluster.
+1. cd frontend
+2. npm install
+3. npm run dev
+4. open http://localhost:5173
 
-### 1. Backend
+## Note about .env
 
-```bash
-cd backend
-npm install
-copy .env.example .env      # on macOS/Linux: cp .env.example .env
-```
-
-Open `backend/.env` and paste your Atlas connection string into `MONGO_URI`
-(replace `<username>` and `<password>`). The `.env` file is listed in
-`.gitignore`, so your password is never committed.
-
-```bash
-npm run dev
-```
-
-The API starts on `http://localhost:5000`.
-
-### 2. Frontend
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-Open `http://localhost:5173`. Vite forwards every `/api` request to the
-backend, so no extra configuration is needed.
-
-## Security Note
-
-Never commit `backend/.env`. It holds the MongoDB connection string, which
-contains the database password. Only `.env.example` (with placeholder values)
-is committed.
+The backend .env file has the MongoDB connection string which contains my database password, so it is added in .gitignore and never pushed to GitHub. Only .env.example with placeholder values is committed.
