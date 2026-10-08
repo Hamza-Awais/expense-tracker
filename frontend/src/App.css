@@ -67,7 +67,7 @@
   color: #1c1c2e;
 }
 
-.chip.total {
+.chip.savings {
   border-left: 4px solid #7048e8;
 }
 
@@ -205,7 +205,7 @@ button {
   background: #e4e7f0;
 }
 
-.balance-edit {
+.savings-edit {
   padding-bottom: 18px;
   margin-bottom: 6px;
   border-bottom: 1px dashed #d9dce6;

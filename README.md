@@ -1,13 +1,14 @@
 # Expense Tracker — MERN Stack
 
-A full-stack expense tracker built with **MongoDB, Express, React and Node.js**. Add income and expenses, optionally enter the money you already have, and watch the balance update live. Data is stored in MongoDB Atlas (cloud).
+A full-stack expense tracker built with **MongoDB, Express, React and Node.js**. Add income and expenses, optionally enter your savings, and watch the balance update live. Data is stored in MongoDB Atlas (cloud).
 
 ## Features
 
 - Separate **Add Income** (green) and **Add Expense** (red) buttons — no minus signs needed
-- **Total Balance is optional** — an "Add existing balance (optional)" link lets you enter the money you already have; skip it and the app starts from 0
-- Live totals: **Your Balance is Rs. ...** line plus **Total Balance**, **Income** and **Expense** chips (balance = total balance + income − expense)
-- The saved total balance lives in the browser (`localStorage`) and can be changed any time from the same link
+- **Savings is optional** — an "Add savings (optional)" link lets you enter the money you already have; skip it and the app starts from 0
+- Live totals: **Your Balance is Rs. ...** line plus **Savings**, **Income** and **Expense** chips (balance = savings + income − expense)
+- **No negative balance** — an expense bigger than the available balance is rejected with a "No balance left" message
+- The saved savings live in the browser (`localStorage`) and can be changed any time from the same link
 - Transaction list (newest first) with a red **X** delete button on every row; deleting an expense raises the balance, deleting an income lowers it
 - Toast messages on add / delete
 - Data persisted in **MongoDB Atlas** through a REST API
@@ -56,11 +57,11 @@ expense-tracker/
 
 | Hook         | Where / Why                                                            |
 | ------------ | ---------------------------------------------------------------------- |
-| `useState`   | transactions list, total balance, form fields, loading, error and toast state |
+| `useState`   | transactions list, savings, form fields, loading, error and toast state |
 | `useEffect`  | fetch all transactions once when the app loads                          |
 | `useRef`     | return the cursor to the description box after adding; toast timer      |
-| `useMemo`    | income/expense totals from the list, and balance = total balance + income − expense |
-| `useCallback`| stable `saveTotalBalance`, `handleAdd` and `handleDelete` functions     |
+| `useMemo`    | income/expense totals from the list, and balance = savings + income − expense |
+| `useCallback`| stable `saveSavings`, `handleAdd` and `handleDelete` functions          |
 
 ## Setup
 
